@@ -10,12 +10,14 @@ import { invoke } from '@tauri-apps/api/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit {
-  greetInputEl: HTMLInputElement | null = null;
+  greetInputFirstNameEl: HTMLInputElement | null = null;
+  greetInputLastNameEl: HTMLInputElement | null = null;
   greetMsgEl: HTMLParagraphElement | null = null;
   title = 'ng-btauri';
 
   ngOnInit(): void {
-    this.greetInputEl = document.querySelector("#greet-input");
+    this.greetInputFirstNameEl = document.querySelector("#greet-input-first-name");
+    this.greetInputLastNameEl = document.querySelector("#greet-input-last-name");
     this.greetMsgEl = document.querySelector("#greet-msg");
 
     let greetFormEl = document.querySelector("#greet-form")
@@ -31,8 +33,8 @@ export class AppComponent implements OnInit {
 
   async greet(): Promise<void> {
     if (this.greetMsgEl) {
-      if (this.greetInputEl) {
-        this.greetMsgEl.textContent = await invoke('greet', { name: this.greetInputEl.value });
+      if (this.greetInputFirstNameEl && this.greetInputLastNameEl) {
+        this.greetMsgEl.textContent = await invoke('greet', { firstname: this.greetInputFirstNameEl.value, lastname: this.greetInputLastNameEl.value });
       } else {
         console.log('greetInputEl == null');
       }
